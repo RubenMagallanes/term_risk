@@ -1,7 +1,6 @@
 from risk_map import Map
 from risk_territory import Territory
 
-fname = './australia.board'
 def generate_map_from_file(filename):
 	map_to_ret = Map()
 
@@ -22,11 +21,15 @@ def generate_map_from_file(filename):
 
 	return map_to_ret
 
+def print_map(risk_map):
+	for i in risk_map.territories:
+		printstr = i.name + " - borders: ["
+		for j in i.adjacent:
+			printstr += j + ", "
+		printstr += ']'
+		print printstr
+#_____________________________________________________________________
+fname = './boards/australia.board'
 risk = generate_map_from_file(fname)
 
-for i in risk.territories:
-	printstr = i.name + " - borders: ["
-	for j in i.adjacent:
-		printstr += j + ", "
-	printstr += ']'
-	print printstr
+print_map(risk)
