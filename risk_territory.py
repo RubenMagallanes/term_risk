@@ -17,6 +17,11 @@ class Territory(object):
 	def remove_troops(self, num):
 		self.troops -= num
 
+	def lose_a_troop(self):
+		self.troops -= 1
+		if self.troops < 0:
+			self.troops = 0
+
 	def change_ownership(self, newplayer):
 		self.owner = newplayer
 
