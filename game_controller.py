@@ -3,7 +3,7 @@ from risk_territory import Territory
 from risk_game import Game
 #controller in mvc	
 	
-fname = './boards/australia.board'
+fname = './boards/australia2.board'
 rgame = Game(['js', 'rj'], fname)
 #populate board with soldiers
 t_list = rgame.risk_map.territories
@@ -11,6 +11,10 @@ for t in t_list:
 	t.troops = 5
 t_list[0].owner = 'js'
 t_list[1].owner = 'rj'
+t_list[2].owner = 'js'
+t_list[3].owner = 'rj'
+
+
 
 rgame.print_game_info()
 

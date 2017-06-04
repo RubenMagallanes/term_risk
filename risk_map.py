@@ -5,7 +5,8 @@ class Map(object):
 	
 	def __init__(self, fname):
 		self.territories = []
-		#self.continents = [] TODO
+		#self.continents = {} TODO map of (str,int) -> [str] 
+		#			      (name, value) ->[territories]
 		
 		lines = []
 		with open(fname) as f:
@@ -15,14 +16,19 @@ class Map(object):
 		territory = ''
 		for en in lines:
 			cmd = en.split(':')
-			if cmd[0] == 'n':
+			if cmd[0] == 'c': #continent line
+				continue
+				#split cmd[1] by - to seperate name, value, adj list
+				#split adj list by, then append to list
+			if cmd[0] == 'n': #territory name
 				t_name = cmd[1]
-			if cmd[0] == 'a':
+			if cmd[0] == 'a': #adjacent territories + add t
 				territory = Territory(t_name, [cmd[1]])
 				self.territories.append(territory)
+
 	
 	def lose_troop_from(self, ter_name):
-		if not check_territory(name):
+		if not self.check_territory(ter_name):
 			return
 		for t in self.territories:
 			if t.name == ter_name:
@@ -30,7 +36,7 @@ class Map(object):
 				break
 
 	def num_troops_in(self, ter_name):
-		if not check_territory(name):
+		if not self.check_territory(ter_name):
 			return -1
 		for t in self.territories:
 			if t.name == ter_name:

@@ -37,7 +37,7 @@ class Game(object):
 		#calculate dice rolls
 		a_dice = self.roll_dice(army_size)
 		d_dice = []
-		if t_to.troops == 1:
+		if self.risk_map.num_troops_in(t_to) == 1:
 			d_dice = self.roll_dice(1)
 		else:
 			d_dice = self.roll_dice(2)
@@ -45,14 +45,16 @@ class Game(object):
 		print 'attacker rolls: '
 		for i in a_dice:
 			if i != 0:
-				print 'i '
+				print str(i) + ' '
 		print '\ndefender rolls: '
 		for i in d_dice:
 			if i != 0:
-				print 'i '
+				print str(i) + ' '
 		#sort lists
-		a_dice.sort().reverse()
-		d_dice.sort().reverse()
+		a_dice.sort()
+		a_dice.reverse()
+		d_dice.sort()
+		d_dice.reverse()
 		#calculate casuaties
 		for dice in range(3):
 			if a_dice[dice] == 0 or d_dice[dice] == 0:
@@ -63,13 +65,13 @@ class Game(object):
 				self.risk_map.lose_troop_from(t_from)
 		print 'fight over'
 
-	def roll_dice(num):
+	def roll_dice(self, num):
 		'''returns an array of 3 ints with num numbers of 1-6, rest 0
 		'''
 		dice = []
 		for i in range (3):
 			if i < num:
-				dice.append(random.randint(1,6))
+				dice.append(randint(1,6))
 			else:
 				dice.append(0)
 		return dice
