@@ -29,6 +29,15 @@ class Map(object):
 				t.lose_a_troop()
 				break
 
+	def num_troops_in(self, ter_name):
+		if not check_territory(name):
+			return -1
+		for t in self.territories:
+			if t.name == ter_name:
+				return t.troops
+				
+
+
 	def check_territory(self, name):
 		names = []
 		for t in self.territories:
