@@ -82,7 +82,16 @@ class Game(object):
 			for adj in tr.adjacent:
 				printstr += adj + ', '
 			print printstr
-	
+	def print_map(self):
+		for tr in self.risk_map.territories:
+			printstr = tr.name 
+			printstr += ', owned by {}'.format(tr.owner)
+			printstr += ', {} troops strong'.format(tr.troops)
+			printstr += '\n\t - borders: '
+			for adj in tr.adjacent:
+				printstr += adj + ', '
+			print printstr
+
 	def game_is_won(self):
 		'''
 		returns the player that has won the game. if game isn't won 
