@@ -23,6 +23,8 @@ while rgame.game_is_won() == '':
 	if inp == 'game info' or inp == 'info' or inp == 'i':
 		rgame.print_game_info() 
 		# TODO change so only access to game is through enter_cmd
+	if inp == 'm' or inp == 'map':
+		rgame.print_map()
 	else:
 		#construct cmd to send to model
 		if inp == 'attack' or inp == 'a':
