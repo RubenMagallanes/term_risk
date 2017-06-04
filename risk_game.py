@@ -32,9 +32,9 @@ class Game(object):
 		a_dice = roll_dice(army_size)
 		d_dice = []
 		if t_to.troops == 1:
-			d_dice = roll_dice(1)
+			d_dice = self.roll_dice(1)
 		else:
-			d_dice = roll_dice(2)
+			d_dice = self.roll_dice(2)
 		#print dice rolls
 		print 'attacker rolls: '
 		for i in a_dice:
