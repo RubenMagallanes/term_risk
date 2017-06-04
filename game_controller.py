@@ -33,7 +33,7 @@ while rgame.game_is_won() == '':
 			#build list of ones adjacent and owned by other player
 			t_to = raw_input('which territory to invade?\n>')
 			#again todo, check how many available to attack
-			amt = raw_input('with how many troops?')
+			amt = raw_input('with how many troops?\n>')
 			cmd_string = 'attack-{}-{}-{}'.format(t_from, t_to, amt)
 			result = rgame.recieve_command(cmd_string)
 	

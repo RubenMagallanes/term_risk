@@ -24,8 +24,13 @@ class Game(object):
 		parts = cmd.split('-')
 		if parts[0] == 'attack':
 			#query map check territories exist, ie no typos [1],[2] are territories
-			self.attack(parts[1], parts[2], parts[3])
-	
+			t1 = self.risk_map.check_territory(parts[1])
+			t2 = self.risk_map.check_territory(parts[2])
+			if t1 and t2:
+				self.attack(parts[1], parts[2], parts[3])
+			else:
+				print "couldn't attack, possibly a typo in territory names?" 
+
 	def attack(self, t_from, t_to, army_size):
 		#TODO make print statements return string
 		print 'attacking with {} soldiers from {} to {},'.format(army_size, t_from, t_to )
