@@ -20,4 +20,18 @@ class Map(object):
 			if cmd[0] == 'a':
 				territory = Territory(t_name, [cmd[1]])
 				self.territories.append(territory)
+	
+	def lose_troop_from(self, ter_name):
+		if not check_territory(name):
+			return
+		for t in self.territories:
+			if t.name == ter_name:
+				t.lose_a_troop()
+				break
+
+	def check_territory(self, name):
+		names = []
+		for t in self.territories:
+			names.append(t.name)
+		return name in names
 

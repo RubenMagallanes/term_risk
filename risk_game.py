@@ -23,6 +23,7 @@ class Game(object):
 		print "command string: " + cmd
 		parts = cmd.split('-')
 		if parts[0] == 'attack':
+			#query map check territories exist, ie no typos [1],[2] are territories
 			self.attack(parts[1], parts[2], parts[3])
 	
 	def attack(self, t_from, t_to, army_size):
@@ -52,9 +53,9 @@ class Game(object):
 			if a_dice[dice] == 0 or d_dice[dice] == 0:
 				continue
 			if a_dice[dice] > d_dice[dice]:
-				t_to.lose_a_troop()
+				self.risk_map.lose_troop_from(t_to)
 			else:
-				t_from.lose_a_troop()
+				self.risk_map.lose_troop_from(t_from)
 		print 'fight over'
 
 	def roll_dice(num):
