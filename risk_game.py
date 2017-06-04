@@ -1,4 +1,5 @@
 from risk_map import Map
+from random import randint
 
 class Game(object):
 	#risk_map - Map - reference to the map
@@ -25,9 +26,48 @@ class Game(object):
 			self.attack(parts[1], parts[2], parts[3])
 	
 	def attack(self, t_from, t_to, army_size):
-		#implement attacking lul
-		print 'attacking with {} soldiers from {} to {},'\
-			' yet to be implemented'.format(army_size, t_from, t_to )
+		#TODO make print statements return string
+		print 'attacking with {} soldiers from {} to {},'.format(army_size, t_from, t_to )
+		#calculate dice rolls
+		a_dice = roll_dice(army_size)
+		d_dice = []
+		if t_to.troops == 1:
+			d_dice = roll_dice(1)
+		else:
+			d_dice = roll_dice(2)
+		#print dice rolls
+		print 'attacker rolls: '
+		for i in a_dice:
+			if i != 0:
+				print 'i '
+		print '\ndefender rolls: '
+		for i in d_dice:
+			if i != 0:
+				print 'i '
+		#sort lists
+		a_dice.sort().reverse()
+		d_dice.sort().reverse()
+		#calculate casuaties
+		for dice in range(3):
+			if a_dice[dice] == 0 or d_dice[dice] == 0:
+				continue
+			if a_dice[dice] > d_dice[dice]:
+				t_to.lose_a_troop()
+			else:
+				t_from.lose_a_troop()
+		print 'fight over'
+
+	def roll_dice(num):
+		'''returns an array of 3 ints with num numbers of 1-6, rest 0
+		'''
+		dice = []
+		for i in range (3):
+			if i < num:
+				dice.append(random.randint(1,6))
+			else:
+				dice.append(0)
+		return dice
+
 	def print_game_info(self):
 		print 'printinf info for current {} player game'.format(len(self.players))
 		print 'players in game:'
