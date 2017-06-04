@@ -29,7 +29,7 @@ class Game(object):
 		#TODO make print statements return string
 		print 'attacking with {} soldiers from {} to {},'.format(army_size, t_from, t_to )
 		#calculate dice rolls
-		a_dice = roll_dice(army_size)
+		a_dice = self.roll_dice(army_size)
 		d_dice = []
 		if t_to.troops == 1:
 			d_dice = self.roll_dice(1)
