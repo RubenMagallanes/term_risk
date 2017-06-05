@@ -23,7 +23,9 @@ rgame.print_game_info()
 while rgame.game_is_won() == '':
 	inp = raw_input("enter a command, 'h' for help:\n>")
 	if inp == 'h' or inp == 'help':
-		print 'available commands: info, attack, end'
+		print 'available commands: info, attack, end, quit'
+	if inp == 'q' or inp == 'quit':
+		break
 	if inp == 'game info' or inp == 'info' or inp == 'i':
 		rgame.print_game_info() 
 		# TODO change so only access to game is through enter_cmd

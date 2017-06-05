@@ -1,9 +1,0 @@
-c:Australia-2
-n:Indonesia
-a:New Guinea,West Australia
-n:New Guinea
-a:Indonesia,West Australia,East Australia
-n:West Australia
-a:Indonesia,New Guinea,East Australia
-n:East Australia
-a:Indonesia,New Guinea,West Australia
