@@ -33,9 +33,23 @@ class Game(object):
 
 	def attack(self, t_from, t_to, army_size):
 		#TODO make print statements return string
+		if army_size > 3:
+			army_size = 3
 		print 'attacking with {} soldiers from {} to {},'.format(army_size, t_from, t_to )
 		#calculate dice rolls
-		a_dice = self.roll_dice(army_size)
+		#calculate attacker has enough to attack with
+		available = self.risk_map.num_troops_in(t_from)
+		available -= 1	#ones gotta stay behind in territory
+		atk_with = 0
+		#make sure theyre not trying to attack with more than they have
+		if army_size > available:  #if trying to atk with more 
+			atk_with = available #attack with what they have 
+		else:
+			atk_with = army_size
+		if atk_with == 0:
+			print 'no troops to attack with'
+			return
+		a_dice = self.roll_dice(atk_with)
 		d_dice = []
 		if self.risk_map.num_troops_in(t_to) == 1:
 			d_dice = self.roll_dice(1)
