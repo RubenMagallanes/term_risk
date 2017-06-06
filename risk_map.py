@@ -1,5 +1,5 @@
 from risk_territory import Territory
-
+from risk_continent import Continent
 class Map(object):
 	#territories - list[Territory] - list of territory objects
 	#continents - list[Continent] - list of continents
