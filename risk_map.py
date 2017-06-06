@@ -1,13 +1,13 @@
 from risk_territory import Territory
 
 class Map(object):
-	#territories - list of territory objects
-	
+	#territories - list[Territory] - list of territory objects
+	#continents - list[Continent] - list of continents
+
 	def __init__(self, fname):
 		self.territories = []
-		#self.continents = {} TODO map of (str,int) -> [str] 
-		#			      (name, value) ->[territories]
-		
+		self.continents = []
+
 		lines = []
 		with open(fname) as f:
 			lines = f.read().split('\n')
@@ -17,9 +17,9 @@ class Map(object):
 		for en in lines:
 			cmd = en.split(':')
 			if cmd[0] == 'c': #continent line
-				continue
-				#split cmd[1] by - to seperate name, value, adj list
-				#split adj list by, then append to list
+				info = cmd[1].split('-')
+				cont = Continent(info[0], info[1], info[2].split(','))
+				self.continents.append(cont)
 			if cmd[0] == 'n': #territory name
 				t_name = cmd[1]
 			if cmd[0] == 'a': #adjacent territories + add t

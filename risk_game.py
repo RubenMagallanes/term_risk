@@ -4,6 +4,7 @@ from random import randint
 class Game(object):
 	#risk_map - Map - reference to the map
 	#players - list[string] - list of player names
+
 	#TODO list of player password hashes
 
 	#TODO state 
