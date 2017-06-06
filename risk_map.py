@@ -41,7 +41,7 @@ class Map(object):
 		for t in self.territories:
 			if t.name == ter_name:
 				return t.troops
-				
+			
 	def get_territory(self, t_name):	
 		for t in self.territories:
 			if t.name == t_name:
@@ -52,4 +52,10 @@ class Map(object):
 		for t in self.territories:
 			names.append(t.name)
 		return name in names
+	
+	def list_territories(self):
+		ts = []
+		for t in self.territories:
+			ts.append(t.name)
+		return ts
 

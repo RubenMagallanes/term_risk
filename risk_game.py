@@ -38,7 +38,10 @@ class Game(object):
 		if not valid:
 			return
 		#check territory is neighbour
-
+		if not self.is_adjacent(t_from, t_to):
+			print "territories {} and {} are not adjacent, can't invade"\
+				.format(t_from, t_to)
+			return
 		#generate attackers dice
 		a_dice = self.roll_dice(army_size)
 		#generate defenders dice
@@ -105,7 +108,10 @@ class Game(object):
 			return False
 
 		return True
-	
+	def is_adjacent(self, t1_name, t2_name):
+		territory1 = self.risk_map.get_territory(t1_name)
+		return t2_name in territory1.adjacent
+
 	def roll_dice(self, num):
 		'''returns an array of num ints with numbers 1-6
 		'''

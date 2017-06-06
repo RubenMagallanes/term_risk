@@ -24,4 +24,12 @@ class Territory(object):
 
 	def change_ownership(self, newplayer):
 		self.owner = newplayer
-
+	
+	def print_info(self):
+		print 'info for {}:'.format(self.name)
+		print 'owned by {} with {} troops'.format(self.owner, self.troops) 
+		pstr = 'adjacent territories: '
+		for adj in self.adjacent:
+			pstr += adj + ', '
+		print pstr
+		
