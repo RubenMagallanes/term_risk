@@ -36,11 +36,9 @@ class Game(object):
 		#validate inputs
 		valid = self.validate_attack_input(t_from, t_to, army_size)
 		if not valid:
-			print'attack command not valid, maybe misspelled '\
-			"territory name or you've tried to send more troops "\
-			'than you have available.'
 			return
-		print 'attack cmd valid, generating dice' 
+		#check territory is neighbour
+
 		#generate attackers dice
 		a_dice = self.roll_dice(army_size)
 		#generate defenders dice
@@ -53,22 +51,41 @@ class Game(object):
 			d_dice = self.roll_dice(1)
 		else:
 			d_dice = self.roll_dice(2)
+		
+		#print dice
+		printstr = '{} rolls: '.format(t_from)
+		for roll in a_dice:
+			printstr +=  str(roll)+ ' '
+		print printstr
+		printstr = '{} rolls: '.format(t_to)
+		for roll in d_dice:
+			printstr += str(roll) + ' '
+		print printstr
+
 		#sort then reverse each dice list so it's highest -> lowest
 		a_dice.sort()
 		a_dice.reverse()
 		d_dice.sort()
 		d_dice.reverse()
+		
+		#calculate smallest dice array size
+		smallest = 3
+		if len(a_dice) < smallest:
+			smallest = len(a_dice)
+		if len(d_dice) < smallest:
+			smallest = len(d_dice)
+
 		#calculate casuaties
-		for dice in range(2):
+		for dice in range(smallest):
 			if a_dice[dice] > d_dice[dice]:
 				print '{} wins a roll, {} suffers a casualty'\
-					.format(t_from, t_to) 
+					.format(t_from, t_to)
 				self.risk_map.lose_troop_from(t_to)
 			else:
 				print '{} wins a roll, {} suffers a casualty'\
 					.format(t_to, t_from)
 				self.risk_map.lose_troop_from(t_from)
-		print 'battle over'
+		#battle over
 
 	def validate_attack_input(self, a_name, d_name, army_size):
 		if not self.risk_map.check_territory(a_name):
