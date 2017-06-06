@@ -42,7 +42,10 @@ class Map(object):
 			if t.name == ter_name:
 				return t.troops
 				
-
+	def get_territory(self, t_name):	
+		for t in self.territories:
+			if t.name == t_name:
+				return t
 
 	def check_territory(self, name):
 		names = []

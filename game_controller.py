@@ -21,7 +21,7 @@ rgame.print_game_info()
 
 # spin asking for commands
 while rgame.game_is_won() == '':
-	inp = raw_input("enter a command, 'h' for help:\n>")
+	inp = raw_input("enter a command, 'h' for help:\n-\t-\t-\t-\t-\n>")
 	if inp == 'h' or inp == 'help':
 		print 'available commands: info, attack, end, quit'
 	if inp == 'q' or inp == 'quit':

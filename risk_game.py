@@ -30,64 +30,71 @@ class Game(object):
 				self.attack(parts[1], parts[2], parts[3])
 			else:
 				print "couldn't attack, possibly a typo in territory names?" 
+	#TODO make print statements return string`
 
 	def attack(self, t_from, t_to, army_size):
-		#TODO make print statements return string
-		if army_size > 3:
-			army_size = 3
-		print 'attacking with {} soldiers from {} to {},'.format(army_size, t_from, t_to )
-		#calculate dice rolls
-		#calculate attacker has enough to attack with
-		available = self.risk_map.num_troops_in(t_from)
-		available -= 1	#ones gotta stay behind in territory
-		atk_with = 0
-		#make sure theyre not trying to attack with more than they have
-		if army_size > available:  #if trying to atk with more 
-			atk_with = available #attack with what they have 
-		else:
-			atk_with = army_size
-		if atk_with == 0:
-			print 'no troops to attack with'
+		#validate inputs
+		valid = self.validate_attack_input(t_from, t_to, army_size)
+		if not valid:
+			print'attack command not valid, maybe misspelled '\
+			"territory name or you've tried to send more troops "\
+			'than you have available.'
 			return
-		a_dice = self.roll_dice(atk_with)
+		print 'attack cmd valid, generating dice' 
+		#generate attackers dice
+		a_dice = self.roll_dice(army_size)
+		#generate defenders dice
+		defs = self.risk_map.num_troops_in(t_to)
+		if defs == -1:
+			print 'invalid defending territory name'
+			return
 		d_dice = []
-		if self.risk_map.num_troops_in(t_to) == 1:
+		if defs == 1:
 			d_dice = self.roll_dice(1)
 		else:
 			d_dice = self.roll_dice(2)
-		#print dice rolls
-		print 'attacker rolls: '
-		for i in a_dice:
-			if i != 0:
-				print str(i) + ' '
-		print '\ndefender rolls: '
-		for i in d_dice:
-			if i != 0:
-				print str(i) + ' '
-		#sort lists
+		#sort then reverse each dice list so it's highest -> lowest
 		a_dice.sort()
 		a_dice.reverse()
 		d_dice.sort()
 		d_dice.reverse()
 		#calculate casuaties
-		for dice in range(3):
-			if a_dice[dice] == 0 or d_dice[dice] == 0:
-				continue
+		for dice in range(2):
 			if a_dice[dice] > d_dice[dice]:
+				print '{} wins a roll, {} suffers a casualty'\
+					.format(t_from, t_to) 
 				self.risk_map.lose_troop_from(t_to)
 			else:
+				print '{} wins a roll, {} suffers a casualty'\
+					.format(t_to, t_from)
 				self.risk_map.lose_troop_from(t_from)
-		print 'fight over'
+		print 'battle over'
 
+	def validate_attack_input(self, a_name, d_name, army_size):
+		if not self.risk_map.check_territory(a_name):
+			print '{} not valid territory'.format(a_name) 
+			return False
+		if not self.risk_map.check_territory(d_name):
+			print '{} not valid territory'.format(d_name) 
+			return False
+		
+		a_ter = self.risk_map.get_territory(a_name)
+		d_ter = self.risk_map.get_territory(d_name)
+		army_available = self.risk_map.num_troops_in(a_name)
+		army_available -= 1
+		if army_available < int(army_size):
+			print 'army size {} is more than whats available: {}'\
+			.format(army_size, army_available)
+			return False
+
+		return True
+	
 	def roll_dice(self, num):
-		'''returns an array of 3 ints with num numbers of 1-6, rest 0
+		'''returns an array of num ints with numbers 1-6
 		'''
 		dice = []
-		for i in range (3):
-			if i < num:
-				dice.append(randint(1,6))
-			else:
-				dice.append(0)
+		for i in range (int(num)):
+			dice.append(randint(1,6))
 		return dice
 
 	def print_game_info(self):
