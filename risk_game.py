@@ -110,7 +110,14 @@ class Game(object):
 
 		return True
 	def is_adjacent(self, t1_name, t2_name):
+		#print "comapring if {} is in {}'s adjacent territorys"\
+		#	.format(t2_name, t1_name)
 		territory1 = self.risk_map.get_territory(t1_name)
+		#print "{}'s adjacent territories: ".format(t1_name)
+		#for t_n in territory1.adjacent:
+		#	print '{}'.format(t_n)
+		#	print '{} == {}: {}'.format(t_n, t2_name, t_n == t2_name)
+
 		return t2_name in territory1.adjacent
 
 	def roll_dice(self, num):
@@ -133,7 +140,7 @@ class Game(object):
 			printstr += ', {} troops strong'.format(tr.troops)
 			printstr += '\n\t - borders: '
 			for adj in tr.adjacent:
-				printstr += adj + ', '
+				printstr += "{}, ".format(adj)
 			print printstr
 	def print_map(self):
 		for tr in self.risk_map.territories:

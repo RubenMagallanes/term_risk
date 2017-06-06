@@ -66,6 +66,11 @@ while rgame.game_is_won() == '':
 					.get_territory(ter).name + ', '
 			print string
 
+	if inp == 'c' or inp == 'continent':
+		print ''
+		#list continents, owners, value
+		#in depth, list territories in it + info for each
+
 	else:
 		#construct cmd to send to model
 		if inp == 'attack' or inp == 'a':

@@ -23,7 +23,7 @@ class Map(object):
 			if cmd[0] == 'n': #territory name
 				t_name = cmd[1]
 			if cmd[0] == 'a': #adjacent territories + add t
-				territory = Territory(t_name, [cmd[1]])
+				territory = Territory(t_name, cmd[1].split(','))
 				self.territories.append(territory)
 
 	
@@ -58,4 +58,7 @@ class Map(object):
 		for t in self.territories:
 			ts.append(t.name)
 		return ts
+
+	#def who owns a continent:wq
+
 
