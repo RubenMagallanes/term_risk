@@ -4,9 +4,9 @@ from random import randint
 class Game(object):
 	#risk_map - Map - reference to the map
 	#players - list[string] - list of player names
-
-	#TODO list of player password hashes
-
+	#message - String - status message 
+		#TODO list of player password hashes
+		#TODO remove every print string, either set status message or return string
 	#TODO state 
 
 	#turn - int - which player's turn it is
@@ -14,57 +14,46 @@ class Game(object):
 		print 'initializing new game'
 		self.players = players	
 		self.risk_map = Map(map_fname)
-		self.turn = 0
+		#self.turn = 0
+		#self.message = ""
 		
-	def recieve_command(self, cmd):
-		'''recieves and processes a command from a player and if it's 
-		that player's turn, executes said command assuming it's valid
-		TODO take player from to check if can execute
-		'''
-		print "command string: " + cmd
-		parts = cmd.split('-')
-		if parts[0] == 'attack':
-			#query map check territories exist, ie no typos [1],[2] are territories
-			t1 = self.risk_map.check_territory(parts[1])
-			t2 = self.risk_map.check_territory(parts[2])
-			if t1 and t2:
-				self.attack(parts[1], parts[2], parts[3])
-			else:
-				print "couldn't attack, possibly a typo in territory names?" 
-	#TODO make print statements return string`
+	''' helper functions for attacking ''' 
 
+	def is_adjacent(self, t1_name, t2_name):
+		'''
+		returns boolean whether territory t1 is adjacent to territory t2 
+		'''
+		territory1 = self.risk_map.get_territory(t1_name)
+		return t2_name in territory1.adjacent
+
+	def roll_dice(self, num):
+		'''
+		returns an array of num ints with numbers 1-6
+		'''
+		dice = []
+		for i in range (int(num)):
+			dice.append(randint(1,6))
+		return dice
+	''' TODO validate attack input in gamecontroller ''' 
+
+	''' now the attack function ''' 
 	def attack(self, t_from, t_to, army_size):
-		#validate inputs
-		valid = self.validate_attack_input(t_from, t_to, army_size)
-		if not valid:
-			return
-		#check territory is neighbour
-		if not self.is_adjacent(t_from, t_to):
-			print "territories {} and {} are not adjacent, can't invade"\
-				.format(t_from, t_to)
-			return
-		#generate attackers dice
+		''' 
+		attacks from t_from to t_to with army_size troops. 
+		1<= army_size <= 3
+		assumes move is valid
+
+		returns True if attack has wiped out defending army 
+				False if defending territory still contains troops
+		'''
+		#generate both attackers & defenders dice
 		a_dice = self.roll_dice(army_size)
-		#generate defenders dice
 		defs = self.risk_map.num_troops_in(t_to)
-		if defs == -1:
-			print 'invalid defending territory name'
-			return
 		d_dice = []
 		if defs == 1:
 			d_dice = self.roll_dice(1)
 		else:
 			d_dice = self.roll_dice(2)
-		
-		#print dice
-		printstr = '{} rolls: '.format(t_from)
-		for roll in a_dice:
-			printstr +=  str(roll)+ ' '
-		print printstr
-		printstr = '{} rolls: '.format(t_to)
-		for roll in d_dice:
-			printstr += str(roll) + ' '
-		print printstr
 
 		#sort then reverse each dice list so it's highest -> lowest
 		a_dice.sort()
@@ -82,79 +71,32 @@ class Game(object):
 		#calculate casuaties
 		for dice in range(smallest):
 			if a_dice[dice] > d_dice[dice]:
-				print '{} wins a roll, {} suffers a casualty'\
-					.format(t_from, t_to)
 				self.risk_map.lose_troop_from(t_to)
 			else:
-				print '{} wins a roll, {} suffers a casualty'\
-					.format(t_to, t_from)
 				self.risk_map.lose_troop_from(t_from)
+
+		#TODO if defending territory ends up with 0 troops, move 1 attacker in, 
+		#return True indicating attacker should be prompted to choose how 
+		#many troops to move from t_from to t_to
+		#
 		#battle over
+		return False
 
-	def validate_attack_input(self, a_name, d_name, army_size):
-		if not self.risk_map.check_territory(a_name):
-			print '{} not valid territory'.format(a_name) 
-			return False
-		if not self.risk_map.check_territory(d_name):
-			print '{} not valid territory'.format(d_name) 
-			return False
-		
-		a_ter = self.risk_map.get_territory(a_name)
-		d_ter = self.risk_map.get_territory(d_name)
-		army_available = self.risk_map.num_troops_in(a_name)
-		army_available -= 1
-		if army_available < int(army_size):
-			print 'army size {} is more than whats available: {}'\
-			.format(army_size, army_available)
-			return False
-
-		return True
-	def is_adjacent(self, t1_name, t2_name):
-		#print "comapring if {} is in {}'s adjacent territorys"\
-		#	.format(t2_name, t1_name)
-		territory1 = self.risk_map.get_territory(t1_name)
-		#print "{}'s adjacent territories: ".format(t1_name)
-		#for t_n in territory1.adjacent:
-		#	print '{}'.format(t_n)
-		#	print '{} == {}: {}'.format(t_n, t2_name, t_n == t2_name)
-
-		return t2_name in territory1.adjacent
-
-	def roll_dice(self, num):
-		'''returns an array of num ints with numbers 1-6
+	''' other functions ''' 
+	def move_troops(self, t_from, t_to, num_troops):
+		''' 
+		moves num-troops from t_from to t_to. 
+		both must be owned by the same player and must have a path 
+		of connecting territorys 
 		'''
-		dice = []
-		for i in range (int(num)):
-			dice.append(randint(1,6))
-		return dice
+		#TODO pathfinding algorithm from t_from , through same-player
+		#owned territories to t_to
 
-	def print_game_info(self):
-		print 'printinf info for current {} player game'.format(len(self.players))
-		print 'players in game:'
-		for pl in self.players:
-			print '- ' + pl
-		print 'there are {} territories in this map:'.format(len(self.risk_map.territories))
-		for tr in self.risk_map.territories:
-			printstr = tr.name 
-			printstr += ', owned by {}'.format(tr.owner)
-			printstr += ', {} troops strong'.format(tr.troops)
-			printstr += '\n\t - borders: '
-			for adj in tr.adjacent:
-				printstr += "{}, ".format(adj)
-			print printstr
-	def print_map(self):
-		for tr in self.risk_map.territories:
-			printstr = tr.name 
-			printstr += ', owned by {}'.format(tr.owner)
-			printstr += ', {} troops strong'.format(tr.troops)
-			printstr += '\n\t - borders: '
-			for adj in tr.adjacent:
-				printstr += adj + ', '
-			print printstr
+		return
 
-	def game_is_won(self):
+	def game_winner(self):
 		'''
-		returns the player that has won the game. if game isn't won 
+		returns string the player that has won the game. if game isn't won 
 		yet, returns empty string
 		'''
 		ownr = self.risk_map.territories[0].owner

@@ -67,7 +67,22 @@ while rgame.game_is_won() == '':
 			print string
 
 	if inp == 'c' or inp == 'continent':
-		print ''
+		string = 'continents: '
+		conts = []
+		for co in rgame.risk_map.continents:
+			string += co.name + ', '
+			conts.append(co.name)
+		cont = raw_input("which continent do you want info about?\n>").strip()
+		if not cont in conts:
+			print "{} isnt a valid continent name".format(cont)
+		else:
+			c = self.rgame.risk_map.get_continent(cont)
+			print c.info() # name and value
+			for t_n in c.territories:
+				#TODO
+			#print each territory + who owns them
+			#print if someone owns the continent
+
 		#list continents, owners, value
 		#in depth, list territories in it + info for each
 

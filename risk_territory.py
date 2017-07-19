@@ -14,22 +14,33 @@ class Territory(object):
 	def add_troops(self, num):
 		self.troops += num
 
-	def remove_troops(self, num):
+	def lose_troops(self, num):
 		self.troops -= num
-
-	def lose_a_troop(self):
-		self.troops -= 1
 		if self.troops < 0:
 			self.troops = 0
 
-	def change_ownership(self, newplayer):
+	'''def lose_a_troop(self):
+		self.troops -= 1
+		if self.troops < 0:
+			self.troops = 0
+	'''
+
+	def change_owner(self, newplayer):
 		self.owner = newplayer
-	
-	def print_info(self):
-		print 'info for {}:'.format(self.name)
-		print 'owned by {} with {} troops'.format(self.owner, self.troops) 
-		pstr = 'adjacent territories: '
-		for adj in self.adjacent:
-			pstr += adj + ', '
-		print pstr
+
+'''
+territory helper functions 
+'''
 		
+	def territory_info(territory):
+	'''
+	return string reprisenting territory info, ready to be printed out
+	'''
+		return_string = ""
+		return_string += 'info for {}:'.format(territory.name)
+		return_string += 'owned by {} with {} troops'.format(territory.owner, territory.troops) 
+		pstr = 'adjacent territories: '
+		for adj in territory.adjacent:
+			pstr += adj + ', '
+		return_string += pstr
+		return return_string
