@@ -1,0 +1,17 @@
+risk_game - just game funcitons
+[]  - make info funcitons outside class
+risk_map  - map object
+[]  - make info functions
+risk_territory
+[x]  - make info functions  
+risk_continent
+[x]  - make info func
+
+split game into diff functions
+
+game enapsulates map 
+game trusts - up to game controller to control access to game
+seperate game controller that takes commands, parses and sends to game
+
+
+have controller hold reference to game, validate input then call game functions to change info
