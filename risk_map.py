@@ -89,7 +89,12 @@ class Map(object):
 
 	def move_troops(self, t_from, t_to, num_troops):
 		'''move num_troops from t_from to t_to'''
-		#TODO
+		t_f = self.get_territory(t_from)
+		t_t = self.get_territory(t_to)
+		
+		t_f.lose_troops(num_troops)
+		t_t.add_troops(num_troops)
+
 
 '''	continent functions '''
 

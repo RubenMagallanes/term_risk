@@ -38,7 +38,8 @@ territory helper functions
 	'''
 		return_string = ""
 		return_string += 'info for {}:'.format(territory.name)
-		return_string += 'owned by {} with {} troops'.format(territory.owner, territory.troops) 
+		return_string += 'owned by {} with {} troops'\
+			.format(territory.owner, territory.troops) 
 		pstr = 'adjacent territories: '
 		for adj in territory.adjacent:
 			pstr += adj + ', '
