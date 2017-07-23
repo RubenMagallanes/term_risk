@@ -9,6 +9,7 @@ risk_continent
 
 split game into diff functions
 
+game, map, board etc all  assume function calls are valid, it's  up to the game_controller to validate input and call the correct function in game
 game enapsulates map 
 game trusts - up to game controller to control access to game
 seperate game controller that takes commands, parses and sends to game

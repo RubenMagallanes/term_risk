@@ -88,12 +88,18 @@ class Game(object):
 		moves num-troops from t_from to t_to. 
 		both must be owned by the same player and must have a path 
 		of connecting territorys 
+
+		assumes move is  valid
+		actually just calculates who can move where, all the work
+		is actually done by the function  below
+
+		
 		'''
-		#TODO pathfinding algorithm from t_from , through same-player
-		#owned territories to t_to
+		#TODO call map.path_between to check if there exists a path, if so, 
+		#call map.move_troops_forced below to move them
 
 		return
-
+	
 	def game_winner(self):
 		'''
 		returns string the player that has won the game. if game isn't won 
