@@ -79,9 +79,17 @@ class Map(object):
 			if t.name == ter_name:
 				return t.troops
 
+	def path_between(self,  t_from, t_to):
+		'''
+		calculates the path (if any) between t_from and t_to
+		returns True if there exists a path, False if not.
+		'''
+		#TODO implement graph pathfinding algorithm through
+		#same-player owned territorys
+
 	def move_troops(self, t_from, t_to, num_troops):
 		'''move num_troops from t_from to t_to'''
-
+		#TODO
 
 '''	continent functions '''
 
