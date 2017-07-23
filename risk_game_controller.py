@@ -25,7 +25,9 @@ class Game(object):
 		print "command string: " + cmd
 		parts = cmd.split('-')
 		if parts[0] == 'attack':
-			#query map check territories exist, ie no typos [1],[2] are territories
+			#query map check territories exist, ie no typos [1],[2] 
+			#are territories
+
 			t1 = self.risk_map.check_territory(parts[1])
 			t2 = self.risk_map.check_territory(parts[2])
 			if t1 and t2:
@@ -144,11 +146,13 @@ class Game(object):
 		'''
 		returnstr = ''
 		#returnstr += 
-		returnstr +=  'printinf info for current {} player game'.format(len(self.players)) + '\n'
+		returnstr +=  'printinf info for current {} player game'\
+			.format(len(self.players)) + '\n'
 		returnstr +=  'players in game:' + '\n'
 		for pl in self.players:
 			returnstr += '- ' + pl + '\n'
-		returnstr +=  'there are {} territories in this map:'.format(len(self.risk_map.territories)) +'\n'
+		returnstr +=  'there are {} territories in this map:'\
+			.format(len(self.risk_map.territories)) +'\n'
 		return returnstr
 
 	def print_map(self):
